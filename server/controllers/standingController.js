@@ -2,11 +2,13 @@ const users = require("../models/users.js");
 const redis = require("../utils/redisDB.js");
 
 const LEADERBOARD = 'leaderboard';
+const USER_INFO_CACHE = 'user_info';
+
+// TODO : Add Namespaces while inserting data in redis
 
 const getMyRank = async (req, res) => {
-    // const { username } = req.user;
-    const username = 'tusharshivansh502';
-    
+    const { username } = req.user;
+
     try{
         const user = await redis.hgetall(username);
 
@@ -36,7 +38,6 @@ const getMyRank = async (req, res) => {
 
 const updateStanding = async (users) => {
     const usersWithRank = [];
-    
     for(const user of users){
         usersWithRank.push([user.rank,user.username]);
     }
@@ -52,7 +53,7 @@ const updateStanding = async (users) => {
 
         let retry = 10;
 
-        while(retry > 0){    
+        while(retry > 0){
             await pipeline
                 .exec()
                 .then((results) => {
@@ -121,11 +122,10 @@ const getStanding = async (req, res) => {
 };
 
 const getFriendsStanding = async (req, res) => {
-    // const { friends } = req.user;
-    const friends = ['abhay', 'manish'];
+    const { friends } = req.user;
 
     try{
-        const allFriendsDetails = []; 
+        const allFriendsDetails = [];
 
         for(const friend of friends){
             const friendDetails = await redis.hgetall(friend);
@@ -135,7 +135,6 @@ const getFriendsStanding = async (req, res) => {
         }
 
         allFriendsDetails.sort((a, b) => a.rank - b.rank);
-        
         res.json({
             status: true,
             data: {
@@ -152,9 +151,52 @@ const getFriendsStanding = async (req, res) => {
     }
 };
 
+const fetchAllUserRating = async (req, res) => {
+    let TOTAL_PAGES = 4;
+
+    const ITEM_LIMIT = 25;
+    
+    try{
+        const api_req = [];
+        for(let page = 1;page <= TOTAL_PAGES;page++){
+            const startRank = (page - 1)*ITEM_LIMIT + 1;
+            const endRank = (page)*ITEM_LIMIT;
+            const users = await redis.zrange(LEADERBOARD, startRank, endRank, "BYSCORE");
+            
+            console.log(page);
+
+            for (let user of users){
+                api_req.push(fetch(`http://localhost:8000/users/profile/${user}`));
+            };
+
+            if(api_req.length === 5) {
+                await Promise.all([api_req]);
+                api_req = []; 
+            }
+        }
+
+        await Promise.all([api_req]);
+
+        res.json({
+            status: true,
+            data: [],
+            msg: "Operation executed successfully",
+        });
+    }catch(err){
+        res.json({
+            status: false,
+            data: [],
+            msg: "something went wrong",
+            err : err
+        });
+    }
+};
+
+
 module.exports = {
-    getMyRank, 
+    getMyRank,
     getStanding,
     getFriendsStanding,
-    updateStanding
+    updateStanding,
+    fetchAllUserRating
 };

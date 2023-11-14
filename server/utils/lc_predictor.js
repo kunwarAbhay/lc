@@ -2,6 +2,11 @@
 https://leetcode.com/discuss/general-discussion/468851/New-Contest-Rating-Algorithm-(Coming-Soon)
 */
 
+
+const redis = require("../utils/redisDB.js");
+const { fetchUserRating } = require('../controllers/usersController.js');
+const LEADERBOARD = 'leaderboard';
+
 // calcultate probability a wins b
 const getEloWinProbability = (a, b) => {
     return 1.0 / (1.0 + Math.pow(10.0, (b - a) / 400.0));
@@ -77,37 +82,108 @@ const calculate = (contestants) => {
     }
 }
 
-// Get all the contestants of the specified contest ID
-let contestants = [];
-
 const getContestants = async () => {
     // Later on this data will come from Leetcode ranklist
     const response = await fetch(`https://codeforces.com/api/contest.ratingChanges?contestId=653`);
 
-    const data = await response.json();
+    const contestants = [];
+    const contestantsRating = new Map();
+
+    try{
+        const users = await redis.zrange(LEADERBOARD, 0, 30000, "BYSCORE");
+
+        const pipeline = redis.pipeline();
+        const ratingPipeline = redis.pipeline();
+
+        users.forEach(user => {
+            pipeline.hgetall(user);
+            ratingPipeline.hgetall(`leetcode:${user}`);
+        })
+
+        await pipeline
+            .exec()
+            .then((results) => {
+                results.forEach(([_, user]) => {
+                    if(user.username){
+                        contestants.push({username : user.username, rank : user.rank});
+                    }
+                })
+            }).catch((error) => {
+                console.log("Pipeline error while get stanging : ", error);
+            });
+
+
+
+        await ratingPipeline
+            .exec()
+            .then(async (results) => {
+                const ratings = [];
+                results.forEach(([_, {rating}]) => {
+                    ratings.push(rating);
+                });
+
+                const api_req = [];
+
+                for(let i = 0;i < ratings.length;i++){
+                    if(ratings[i] === undefined){
+                        api_req.push(fetchUserRating(users[i]));
+                    }
+
+                    if(api_req.length === 25){
+                        await Promise.all(api_req);
+                        console.log("curr", i);
+                    }
+                }
+                
+                await Promise.all(api_req);
+
+                console.log("ratings : ", results);
+            }).catch((error) => {
+                console.log("Pipeline error while get stanging : ", error);
+            });
+            
+            
+
+        contestants.sort((a, b) => a.rank - b.rank);
+    }catch(err){
+        console.log(err); 
+    }
+
+    // console.log(contestants);
+
+    return contestants;
+
+    // const data = await response.json();
     
     // Extract only required data
-    contestants = data.result.map(contestant => {
-        const {handle, rank, oldRating, newRating}  = contestant; 
+    // contestants = data.result.map(contestant => {
+    //     const {handle, rank, oldRating, newRating}  = contestant; 
 
-        return {handle, rank, oldRating, newRating};
-    });
+    //     return {handle, rank, oldRating, newRating};
+    // });
 }
+
+/* Steps to predict ratings */
+// 1. Load the current ratings of all user.
+// 2. Load all 
 
 
 const main = async () => {
-    await getContestants();
+    // Get all the contestants of the specified contest ID
+    const contestants = await getContestants();
     
-    calculate(contestants);
+    // calculate(contestants);
 
     contestants.sort((a, b) => b.rank - a.rank);
 
-    for(const contestant of contestants){
-        const realDelta = contestant.newRating - contestant.oldRating;
-        const predictedDelta = Math.round(contestant.delta);
+    // for(const contestant of contestants){
+    //     const realDelta = contestant.newRating - contestant.oldRating;
+    //     const predictedDelta = Math.round(contestant.delta);
 
-        console.log(contestant.rank, contestant.handle, contestant.oldRating, contestant.expectedRating, realDelta, predictedDelta);
-    }
+    //     console.log(contestant.rank, contestant.handle, contestant.oldRating, contestant.expectedRating, realDelta, predictedDelta);
+    // }
 }
 
-main();
+module.exports = {
+    main
+}

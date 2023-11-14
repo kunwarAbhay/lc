@@ -19,5 +19,5 @@ redis.ping()
 redis.on('error', (error) => {
     console.error('Redis Error:', error);
 });
-  
+
 module.exports = redis;

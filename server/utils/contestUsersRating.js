@@ -87,7 +87,7 @@ const getAllRank = async () => {
         });
 
         // console.log(data);
-        updateStanding(data);
+        // updateStanding(data);
     }
 }
 
