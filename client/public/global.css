@@ -17,7 +17,6 @@ a {
 }
 
 a:hover {
-	color: #6e2be2;
 	transition-duration: 500ms;
 }
 
@@ -44,7 +43,6 @@ button {
 	color: #333;
 	background-color: #f4f4f4;
 	outline: none;
-	border: none;
 }
 
 button:disabled {

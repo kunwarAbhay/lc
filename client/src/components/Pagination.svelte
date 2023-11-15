@@ -23,7 +23,7 @@
 <main>
     <nav>
         <ul class="flex items-center -space-x-px h-10 text-base text-gray-500">
-            <Router {url}>
+            <Route>
                 <li>
                     <Link to="/{prev}" class="flex items-center justify-center px-4 h-10 ml-0 border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-900">
                         <span class="sr-only">Previous</span>
@@ -47,7 +47,7 @@
                         </svg>
                     </Link>
                 </li>
-            </Router>
+            </Route>
         </ul>
     </nav>
 </main>

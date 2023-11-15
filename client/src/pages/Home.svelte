@@ -10,14 +10,14 @@
       <div class="mx-auto max-w-[860px] w-full p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link to="standing/weekly-contest-371">
             <div class="border-2 border-black p-4 flex justify-between items-center cursor-pointer hover:shadow-2xl">
-              <h3 class="font-semibold">Bi-Weekly Contest 371</h3>
+              <h3 class="font-semibold">Weekly Contest 371</h3>
               <span class="p-2 bg-yellow-600 text-white font-bold">UPCOMING</span>
             </div>
           </Link>
           
         <Link to="standing/weekly-contest-370">
           <div class="border-2 border-black p-4 flex justify-between items-center cursor-pointer hover:shadow-2xl">
-            <h3 class="font-semibold">Weekly Contest 370</h3>
+            <h3 class="font-semibold">Biweekly Contest 117</h3>
             <span class="p-2 bg-green-600 text-white font-bold">LIVE</span>
           </div>
         </Link>
@@ -31,7 +31,7 @@
           
         <Link to="standing/weekly-contest-370">
           <div class="border-2 border-black p-4 flex justify-between items-center cursor-pointer hover:shadow-2xl">
-            <h3 class="font-semibold">Weekly Contest 370</h3>
+            <h3 class="font-semibold">Weekly Contest 369</h3>
             <span class="p-2 bg-red-600 text-white font-bold">PAST</span>
           </div>
         </Link>

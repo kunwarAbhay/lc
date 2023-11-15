@@ -15,7 +15,7 @@
       </div>
       
       <!-- HAMNURGER MENU -->
-      <div class="flex md:hidden" class:hidden={open}>
+      <div class="flex md:hidden pr-4" class:hidden={open}>
         <button type="button" on:click={() => open = true} class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
           <span class="sr-only">Open main menu</span>
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -29,15 +29,14 @@
         <Router>
           <Link to="/" class="text-sm font-semibold leading-6 text-gray-900">Home</Link>
           <Link to="/global-ranking" class="text-sm font-semibold leading-6 text-gray-900">Global Ranking</Link>
-          <Link to="/standing" class="text-sm font-semibold leading-6 text-gray-900">Contest Leaderboard</Link>
         </Router>
       </div>
 
       <div class="hidden md:flex md:flex-1 md:justify-end">
         <div class="flex gap-4">
             <Router>
-                <Link to="/signup" class="text-sm font-semibold leading-6 text-gray-900">Signup</Link>
-                <Link to="/login" class="text-sm font-semibold leading-6 text-gray-900">Login</Link>
+                <Link to="/signup" class="p-2 border-2 border-red-600 tracking-wider text-sm text-black hover:text-white hover:bg-red-700">Signup</Link>
+                <Link to="/login" class="p-2 border-2 border-red-600 tracking-wider text-sm text-black hover:text-white hover:bg-red-700">Login</Link>
             </Router>
         </div>
       </div>
@@ -51,7 +50,7 @@
         <div class="flex items-center justify-between">
           
           <!-- LOGO -->
-          <a href="/" class="-m-1.5 p-1.5">
+          <a href="/" class="-m-1.5">
             <span class="sr-only">Leetcode Companion</span>
             <span class="text-4xl">⚡</span>
           </a>
@@ -72,14 +71,13 @@
                   <Router>    
                     <Link to="/" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Home</Link>
                     <Link to="/global-ranking" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Global Ranking</Link>
-                    <Link to="/standing" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Contest Leaderboard</Link>
                   </Router>
                 </div>
                 
                 <div class="py-6">
                   <Router>
-                    <Link to="/signup" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Signup</Link>
-                    <Link to="/login" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Login</Link>
+                    <Link to="/signup" class="p-2 border-2 border-red-600 tracking-wider text-sm text-black hover:text-white hover:bg-red-700">Signup</Link>
+                    <Link to="/login" class="p-2 border-2 border-red-600 tracking-wider text-sm text-black hover:text-white hover:bg-red-700">Login</Link>
                   </Router>
                 </div>
           </div>

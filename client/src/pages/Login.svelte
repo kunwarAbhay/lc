@@ -69,7 +69,7 @@
         <input
           type="submit"
           value="Login"
-          class="py-3 bg-red-600 border-none tracking-wider text-white outline-none"
+          class="py-3 bg-red-700 cursor-pointer border-none tracking-wider text-white outline-none"
         />
       </form>
   </div>

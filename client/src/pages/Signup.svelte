@@ -77,7 +77,7 @@
         <input
           type="submit"
           value="Signup"
-          class="py-3 border-violet-900 bg-red-600 border-none tracking-wider text-white outline-none"
+          class="py-3 border-violet-900 cursor-pointer bg-red-700 border-none tracking-wider text-white outline-none"
         />
       </form>
   </div>

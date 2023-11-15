@@ -7,13 +7,12 @@
     const BASE_URL = "http://localhost:8000";
     const BASE_URL_COUNTRY = 'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/2.8.0/flags/4x3';
 
-    let users = [];
-    export let page = 1;
+    let friends = [];
     export let contest = '/';
 
-    const pad = (str, MAX_LEN = 16) => {
-        if(MAX_LEN >= str.length) return str;
-        return str.substr(0, MAX_LEN) + '...';
+    const pad = (str, MAX_LEN_USERNAME = 16) => {
+        if(MAX_LEN_USERNAME >= str.length) return str;
+        return str.substr(0, MAX_LEN_USERNAME) + '...';
     }
 
     const milisecondToHourMinute = (date) => {
@@ -48,19 +47,31 @@
         return users;
     }
 
-    const getStanding = async () => {
+    const getFreindsStanding = async () => {
         try{
-            const response = await fetch(`${BASE_URL}/standing/page/${page}`);
-            const { data } = await response.json();
+            const response = await fetch(`${BASE_URL}/standing/friends`, {
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json',
+                },
+                body : JSON.stringify({
+                    friends : ['0abhay0', 'rz_kaushal', 'ashubeast4262']
+                }),
+            });
 
-            users = formatUsersData(data.users);
+            console.log(response); 
+            
+            const { data } = await response.json();
+            console.log(data);
+
+            friends = formatUsersData(data.friends);
         }catch(err){
             console.log(err);
         }
     }
 
     onMount(async () => {
-        getStanding();
+        getFreindsStanding();
     });
 
 </script>
@@ -69,16 +80,13 @@
 <main class="max-w-screen-lg mx-auto flex flex-col justify-center p-8 text-[rgb(43,46,74)]"> 
 
   <h1 class="text-4xl font-bold text-center mb-12"> WEEKLY CONTESTS 370</h1>
-  
+
   <div class="flex gap-4 justify-end mb-6">
-      <Link to="/standing/{contest}/1" class="p-2 bg-red-600 border-none tracking-wider text-sm text-white outline-none hover:bg-red-700"> Common Standing </Link>
-      <Link to="/standing/{contest}/friends" class="p-2 border-2 border-red-600 tracking-wider text-sm text-black hover:text-white hover:bg-red-700"> Friends Standing </Link>
+    <Route>
+        <Link to="/standing/{contest}/1" class="p-2 border-2 border-red-600 tracking-wider text-sm text-black hover:text-white hover:bg-red-700"> Common Standing </Link>
+        <Link to="/standing/{contest}/friends" class="p-2 bg-red-600 border-none tracking-wider text-sm text-white outline-none hover:bg-red-700"> Friends Standing </Link>
+    </Route>
   </div>
 
-  <StandingTable {users} />
-
-  <div class="mx-auto">
-    <Pagination {page}/>
-  </div>
-
+  <StandingTable users={friends} />
 </main>
