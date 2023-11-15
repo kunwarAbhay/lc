@@ -33,4 +33,5 @@ An application to get the live rating predictions of the Leetcode official conte
 ## Tech Stack
 
 **Client:** Svelte, TailwindCSS
+
 **Server:** Node, Express, MongoDB, Redis
