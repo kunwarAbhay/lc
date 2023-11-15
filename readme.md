@@ -12,13 +12,13 @@ An application to get the live rating predictions of the Leetcode official conte
 ## Screenshots
 
 ### Home
-![App Screenshot](/assets/home.png)
+![App Screenshot](/assets/Home.png)
 
 ### Signup
-![App Screenshot](/assets/signup.png)
+![App Screenshot](/assets/Signup.png)
 
 ### Login
-![App Screenshot](/assets/login.png)
+![App Screenshot](/assets/Login.png)
 
 ### Contest Standing
 ![App Screenshot](/assets/standing.png)
