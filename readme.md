@@ -12,14 +12,25 @@ An application to get the live rating predictions of the Leetcode official conte
 ## Screenshots
 
 ### Home
-![App Screenshot](/assets/Home.png)
+![App Screenshot](/assets/home.png)
 
 ### Signup
-![App Screenshot](/assets/Signup.png)
+![App Screenshot](/assets/signup.png)
 
 ### Login
-![App Screenshot](/assets/Login.png)
+![App Screenshot](/assets/login.png)
 
 ### Contest Standing
-![App Screenshot](/assets/Leaderboard.png)
+![App Screenshot](/assets/standing.png)
 
+### Friends Standing
+![App Screenshot](/assets/friend-standing.png)
+
+### Global Ranking
+![App Screenshot](/assets/global-ranking.png)
+
+
+## Tech Stack
+
+**Client:** Svelte, TailwindCSS
+**Server:** Node, Express, MongoDB, Redis

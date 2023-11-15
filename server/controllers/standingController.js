@@ -122,7 +122,7 @@ const getStanding = async (req, res) => {
 };
 
 const getFriendsStanding = async (req, res) => {
-    const { friends } = req.user;
+    const { friends } = req.body;
 
     try{
         const allFriendsDetails = [];
